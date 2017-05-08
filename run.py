@@ -8,32 +8,6 @@ import datetime
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-def getEmployees():
-    host = 'https://inca.inovex.de/_api'
-    # payload = json.load(open("auth.json"))
-    payload = {}
-    try:
-        payload['password'] = wf.get_password('inovex-inca-password')
-    except PasswordNotFound:  # API key has not yet been set
-        wf.send_feedback()
-        return 0
-
-    try:
-        payload['username'] = wf.get_password('inovex-inca-username')
-    except PasswordNotFound:  # API key has not yet been set
-        wf.send_feedback()
-        return 0
-
-    payload['rememberMe'] = True
-    
-    # json_data = json.dumps(data)
-    headers = {'Authorization':'Basic bmtyZWlsaW5nOkJlYXJpbmcuMTY=' ,'Origin':'https://inca.inovex.de' ,'Accept-Encoding':'gzip, deflate, br' ,'Accept-Language':'en-US,en;q=0.8,de;q=0.6' ,'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36' ,'Content-Type':'application/json;charset=UTF-8' ,'Accept':'application/json, text/plain, */*' ,'Referer':'https://inca.inovex.de/' ,'Cookie':'_ga=GA1.2.1211380720.1465820575' ,'Connection':'keep-alive'}
-    req = requests.post(host+"/authenticate", data=json.dumps(payload), headers=headers)
-    id_token = json.loads(req.text)['id_token']
-    headers['Cookie'] = '_ga=GA1.2.1211380720.1465820575; X-INCA-AUTHORIZATION='+id_token
-    empList = json.loads(requests.get(host+"/employee", headers=headers).text)
-    return empList
-
 
 def search_key_for_name(emp):
     """Generate a string search key for a emp"""
@@ -59,7 +33,6 @@ def search_by_time(emp):
     elements = []
     try:
         elements.append(str(emp['admission'][:7]))  # emp tags
-        # print(emp['admission'][:7])
         pass
     except TypeError as e:
         elements.append("")  # emp tags
@@ -72,42 +45,44 @@ def search_by_skill(emp):
 
 
 def main(wf):
-    empList = wf.cached_data('empList', getEmployees, max_age=36000)
+
+    def getCheatSheets():
+        host = 'http://35.157.154.191:9200'
+
+        payload = {
+           "query": {
+                "query_string" : {
+                    "fields" : ["file","content","section"],
+                    "query" : str(wf.args[0])
+                }
+            }
+        }
+
+        # json_data = json.dumps(data)
+        cheatSheets = json.loads(requests.post(host+"/cheatsheets/markdown/_search", data=json.dumps(payload)).text)['hits']['hits']
+        return cheatSheets
+
+    cheatSheets = getCheatSheets()
+    # print("type", file=sys.stderr)
+    # wf.logger.debug(type(cheatSheets))
 
     regex = re.compile('[A-Za-z]+')
-
-
-    # Get query from Alfred
-    if len(wf.args):
-        if (wf.args[0] == "new"):
-            now = datetime.datetime.now()
-            empList = wf.filter('{}-{:02d}'.format(str(now.year),now.month), empList, key=search_by_time)
-        elif (wf.args[0] == "skill"):
-            empList = wf.filter(wf.args[1], empList, key=search_by_skill)
-        elif ( regex.match(wf.args[0]) ):
-            empList = wf.filter(wf.args[0], empList, key=search_key_for_name,  min_score=20)
-        else:
-            empList = wf.filter(wf.args[0], empList, key=search_by_time,  min_score=20)
-        # if (wf.args[0])
-    else:
-        query = None
-
-
-    # If script was passed a query, use it to filter posts
-
     # Loop through the returned posts and add an item for each to
     # the list of results for Alfred
-    for emp in empList:
-        # try:
-        #     location = emp['location']
-        # except AttributeError:
-        #     location = ''
-
-        wf.add_item(title=emp['firstName']+' '+emp['lastName'],
-                    icon=u'imgs/'+emp['userId']+'.jpg',
+    for cmd in cheatSheets:
+        src = cmd['_source']
+        link = 'https://gitlab.com/kreiling/cheatsheets/blob/master/{}'.format(src['link'])
+        id = cmd['_id']
+        if hasattr(src, 'comment'):
+            subtitle = '{} ({})'.format(src['comment'],cmd['_score'])
+        else:
+            subtitle = '{} ({})'.format(src['file'],cmd['_score'])
+        wf.add_item(title=src['content'],
                     # icontype=u'fileicon',
-                    subtitle='{} in {} | {}'.format(emp['lob'],emp['location'],emp['mobile']),
-                    arg=emp['userId'],
+                    icon=u'imgs/{}.png'.format(src['file'].split(".",1)[0]),
+                    subtitle=subtitle,
+                    # arg=src['link'],
+                    arg="{} {}".format(link,id),
                     valid=True)
 
     # Send the results to Alfred as XML
