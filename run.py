@@ -48,6 +48,7 @@ def parseElement(cmd):
         item["subtitle"] = src['content']
 
     item["icon"] = src['file'].split(".",1)[0]
+    item["file"] = src['file']
     return item;
 
 def main(wf):
@@ -64,7 +65,7 @@ def main(wf):
                 # Pass multiple arguments, so that workflow can use the correct, depending on pressed keys
                 # link => open GitLab Documentation
                 # id => open ElasticSearch Document
-                arg="{} {} {}".format(item["link"],item["id"], item["code"]),
+                arg="{} {} {} {}".format(item["link"],item["file"],item["id"], item["code"]),
                 valid=True)
 
 

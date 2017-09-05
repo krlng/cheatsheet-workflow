@@ -8,6 +8,19 @@
 	<string>Dev</string>
 	<key>connections</key>
 	<dict>
+		<key>759A5B63-2EF8-4128-BD94-2899CA006B1F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>127BFDCE-C986-4B52-84AC-832988B34201</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>A7286086-1484-4E76-9256-6635DED01F68</key>
 		<array>
 			<dict>
@@ -17,14 +30,18 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>127BFDCE-C986-4B52-84AC-832988B34201</string>
+				<string>B3EFC68F-0753-49E3-B5BB-4BE1965E01FA</string>
 				<key>modifiers</key>
-				<integer>1048576</integer>
+				<integer>262144</integer>
 				<key>modifiersubtext</key>
-				<string>copy command</string>
+				<string>edit</string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
@@ -33,8 +50,22 @@
 				<integer>524288</integer>
 				<key>modifiersubtext</key>
 				<string>debug entry</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>759A5B63-2EF8-4128-BD94-2899CA006B1F</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>copy command</string>
+				<key>vitoclose</key>
+				<false/>
 			</dict>
 		</array>
+		<key>B3EFC68F-0753-49E3-B5BB-4BE1965E01FA</key>
+		<array/>
 		<key>BB4F63E8-899C-4DA5-BF7D-75FAABB68A4F</key>
 		<array/>
 	</dict>
@@ -56,9 +87,13 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>read link id &lt;&lt;&lt; "{query}"
+				<string>read link file id cmd &lt;&lt;&lt; "{query}"
 
 open -a "/Applications/Google Chrome.app" "$link"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -67,7 +102,32 @@ open -a "/Applications/Google Chrome.app" "$link"</string>
 			<key>uid</key>
 			<string>BB4F63E8-899C-4DA5-BF7D-75FAABB68A4F</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>read link file id cmd &lt;&lt;&lt; "{query}"
+
+open -a /usr/local/bin/macdown ~/dev/cheatsheets/${file}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>B3EFC68F-0753-49E3-B5BB-4BE1965E01FA</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -76,17 +136,23 @@ open -a "/Applications/Google Chrome.app" "$link"</string>
 				<false/>
 				<key>clipboardtext</key>
 				<string>{query}</string>
+				<key>transient</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
 			<string>127BFDCE-C986-4B52-84AC-832988B34201</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -105,6 +171,12 @@ open -a "/Applications/Google Chrome.app" "$link"</string>
 				<string>searching cheats..</string>
 				<key>script</key>
 				<string>python run.py "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
 				<key>title</key>
 				<string>cheat ...</string>
 				<key>type</key>
@@ -117,7 +189,7 @@ open -a "/Applications/Google Chrome.app" "$link"</string>
 			<key>uid</key>
 			<string>A7286086-1484-4E76-9256-6635DED01F68</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -127,9 +199,13 @@ open -a "/Applications/Google Chrome.app" "$link"</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>read link id &lt;&lt;&lt; "{query}"
+				<string>read link file id cmd &lt;&lt;&lt; "{query}"
 
-open -a "/Applications/Google Chrome.app" "http://35.157.154.191:9200/cheatsheets/markdown/_search?pretty&amp;q=_id:${id}"</string>
+open "http://35.157.154.191:9200/cheatsheets/markdown/_search?pretty&amp;q=_id:${id}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -138,7 +214,32 @@ open -a "/Applications/Google Chrome.app" "http://35.157.154.191:9200/cheatsheet
 			<key>uid</key>
 			<string>800DF4A0-4936-41F5-817E-0BD346889566</string>
 			<key>version</key>
-			<integer>0</integer>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>read link file id cmd &lt;&lt;&lt; "{query}"
+
+echo ${cmd}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>759A5B63-2EF8-4128-BD94-2899CA006B1F</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -147,23 +248,45 @@ open -a "/Applications/Google Chrome.app" "http://35.157.154.191:9200/cheatsheet
 	<dict>
 		<key>127BFDCE-C986-4B52-84AC-832988B34201</key>
 		<dict>
+			<key>xpos</key>
+			<integer>700</integer>
 			<key>ypos</key>
 			<real>340</real>
 		</dict>
+		<key>759A5B63-2EF8-4128-BD94-2899CA006B1F</key>
+		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
+			<key>ypos</key>
+			<real>560</real>
+		</dict>
 		<key>800DF4A0-4936-41F5-817E-0BD346889566</key>
 		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
 			<key>ypos</key>
 			<real>440</real>
 		</dict>
 		<key>A7286086-1484-4E76-9256-6635DED01F68</key>
 		<dict>
+			<key>xpos</key>
+			<integer>300</integer>
 			<key>ypos</key>
 			<real>340</real>
 		</dict>
+		<key>B3EFC68F-0753-49E3-B5BB-4BE1965E01FA</key>
+		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
+			<key>ypos</key>
+			<integer>270</integer>
+		</dict>
 		<key>BB4F63E8-899C-4DA5-BF7D-75FAABB68A4F</key>
 		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
 			<key>ypos</key>
-			<real>250</real>
+			<integer>130</integer>
 		</dict>
 	</dict>
 	<key>webaddress</key>
