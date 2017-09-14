@@ -170,7 +170,7 @@ open -a /usr/local/bin/macdown ~/dev/cheatsheets/${file}</string>
 				<key>runningsubtext</key>
 				<string>searching cheats..</string>
 				<key>script</key>
-				<string>python run.py "{query}"</string>
+				<string>/usr/local/bin/python run.py "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>

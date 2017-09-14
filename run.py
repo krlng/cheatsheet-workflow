@@ -80,12 +80,7 @@ def main(wf):
 
 
 if __name__ == u"__main__":
-    wf = Workflow( update_settings={
-        # Your username and the workflow's repo's name
-        # 'github_slug': 'nik-ffm/inca-workflow',
-        # Optional number of days between checks for updates
-        # 'frequency': 1
-    })
+    wf = Workflow(libraries=['./lib'])
     # Install update if available
     # if wf.update_available:
     #     wf.start_update()
